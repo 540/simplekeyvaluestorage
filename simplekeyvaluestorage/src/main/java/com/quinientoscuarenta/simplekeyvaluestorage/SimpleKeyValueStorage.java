@@ -1,4 +1,4 @@
-package com.a540deg.simplekeyvaluestorage;
+package com.quinientoscuarenta.simplekeyvaluestorage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
