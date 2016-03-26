@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "0.8"
+        versionName "0.8.1"
     }
     buildTypes {
         release {
@@ -27,3 +27,30 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.9.5'
     testCompile 'org.robolectric:robolectric:3.0'
 }
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'simple-key-value-storage'
+
+    publishedGroupId = 'com.quinientoscuarenta'
+    libraryName = 'simplekeyvaluestorage'
+    artifact = 'simplekeyvaluestorage'
+
+    libraryDescription = 'A simple Shared preference wrapper to store PJO objects in Android serialized with gson'
+
+    siteUrl = 'https://github.com/540/simplekeyvaluestorage'
+    gitUrl = 'https://github.com:540/simplekeyvaluestorage.git'
+
+    libraryVersion = '0.8.1'
+
+    developerId = 'gorkma'
+    developerName = 'Gorka Moreno'
+    developerEmail = 'gorkmave128@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

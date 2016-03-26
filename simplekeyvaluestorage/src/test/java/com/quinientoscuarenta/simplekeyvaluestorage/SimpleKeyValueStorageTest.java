@@ -29,6 +29,7 @@ public class SimpleKeyValueStorageTest {
     public static final String UNAVAILABLE_TEST_PREFS_KEY = "unavailable_key";
 
     private SharedPreferences sharedPreferences;
+
     private SimpleKeyValueStorage serializedSimpleKeyValueStorage;
 
     @Before

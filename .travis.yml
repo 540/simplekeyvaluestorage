@@ -9,5 +9,19 @@ android:
     - extra-google-m2repository
     - extra-android-m2repository
 
+notifications:
+  email: false
+
+jdk: oraclejdk7
+
+sudo: false
+cache:
+  directories:
+    - $HOME/.gradle/caches/2.10
+    - $HOME/.gradle/caches/jars-1
+    - $HOME/.gradle/daemon
+    - $HOME/.gradle/native
+    - $HOME/.gradle/wrapper
+
 script:
-  - ./gradlew checkstyle build
+  - ./gradlew checkstyle build --continue --stacktrace
