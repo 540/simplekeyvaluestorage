@@ -25,3 +25,6 @@ cache:
 
 script:
   - ./gradlew checkstyle build --continue --stacktrace
+
+after_failure:
+  - pandoc app/build/outputs/lint-results.html -t plain
