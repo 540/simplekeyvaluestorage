@@ -31,7 +31,7 @@ dependencies {
 
 ext {
     bintrayRepo = 'maven'
-    bintrayName = 'simple-key-value-storage'
+    bintrayName = 'simplekeyvaluestorage'
 
     publishedGroupId = 'com.quinientoscuarenta'
     libraryName = 'simplekeyvaluestorage'
