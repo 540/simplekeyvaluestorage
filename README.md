@@ -5,7 +5,7 @@
 
 --------
 
-A simple Shared preference wrapper to store POJO objects in Android serialized with gson.
+A simple Shared preference wrapper to store POJO objects in Android, serialized with gson.
 
 Library Objectives 
 ------------------

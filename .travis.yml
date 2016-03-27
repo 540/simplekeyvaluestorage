@@ -7,9 +7,6 @@ android:
     - android-23
     - extra-google-m2repository
     - extra-android-m2repository
-addons:
-  apt_packages:
-    - pandoc
 
 notifications:
   email: false
@@ -27,6 +24,3 @@ cache:
 
 script:
   - ./gradlew checkstyle build --continue --stacktrace
-
-after_failure:
-  - pandoc simplekeyvaluestorage/build/outputs/lint-results.html -t plain
