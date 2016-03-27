@@ -14,9 +14,12 @@ import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
+import static java.util.Collections.EMPTY_LIST;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
@@ -24,114 +27,125 @@ import static org.junit.Assert.assertThat;
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 public class SimpleKeyValueStorageTest {
 
-    public static final String CLASS_TEST_PREFS_KEY = "user_session";
-    public static final String ANOTHER_CLASS_TEST_PREFS_KEY = "another_class";
-    public static final String UNAVAILABLE_TEST_PREFS_KEY = "unavailable_key";
+    public static final String TEST_KEY = "key";
+    public static final String ANOTHER_TEST_KEY = "another_key";
+    public static final String UNAVAILABLE_KEY = "unavailable_key";
 
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences defaultSharedPreferences;
 
-    private SimpleKeyValueStorage serializedSimpleKeyValueStorage;
+    private SimpleKeyValueStorage simpleKeyValueStorage;
 
     @Before
     public void setUp() throws Exception {
-        sharedPreferences = RuntimeEnvironment.application.getSharedPreferences(
-                SimpleKeyValueStorage.SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+        defaultSharedPreferences = RuntimeEnvironment.application
+                .getSharedPreferences("skvs_default_prefs", Context.MODE_PRIVATE);
 
-        serializedSimpleKeyValueStorage =
-                new SimpleKeyValueStorage(RuntimeEnvironment.application);
+        simpleKeyValueStorage = SimpleKeyValueStorage.initDefault(RuntimeEnvironment.application);
     }
 
     @Test
     public void testThatReturnsPersistedClass() throws Exception {
-        TestClass testClass = TestClass.build1();
-        serializeAnotherPersistedClassIntoSharedPrefs(testClass);
+        TestClass testObject = TestClass.build1();
+        storeTestObjectIntoDefaultSharedPrefs(testObject);
 
-        TestClass serializedPersistedClass = serializedSimpleKeyValueStorage.get(
-                CLASS_TEST_PREFS_KEY, TestClass.class);
+        TestClass storedObject = simpleKeyValueStorage.get(TEST_KEY, TestClass.class);
 
-        assertThat(serializedPersistedClass, equalTo(testClass));
+        assertThat(storedObject, equalTo(testObject));
     }
 
     @Test
     public void testThatReturnsAnotherPersistedClass() throws Exception {
-        TestClass testClass = TestClass.build2();
-        serializeAnotherPersistedClassIntoSharedPrefs(testClass);
+        TestClass testObject = TestClass.build2();
+        storeTestObjectIntoDefaultSharedPrefs(testObject);
 
-        TestClass serializedPersistedClass = serializedSimpleKeyValueStorage.get(
-                CLASS_TEST_PREFS_KEY, TestClass.class);
+        TestClass storedObject = simpleKeyValueStorage.get(TEST_KEY, TestClass.class);
 
-        assertThat(serializedPersistedClass, equalTo(testClass));
+        assertThat(storedObject, equalTo(testObject));
     }
 
     @Test
     public void testThatReturnsNullForInexistentKey() throws Exception {
-        assertNull(serializedSimpleKeyValueStorage
-                .get(UNAVAILABLE_TEST_PREFS_KEY, TestClass.class));
+        assertNull(simpleKeyValueStorage.get(UNAVAILABLE_KEY, TestClass.class));
     }
 
     @Test
     public void testThatSavesAnotherClass() throws Exception {
-        TestClass testClass = TestClass.build1();
+        Locale locale = Locale.ENGLISH;
 
-        serializedSimpleKeyValueStorage.set(CLASS_TEST_PREFS_KEY, testClass);
+        simpleKeyValueStorage.set(ANOTHER_TEST_KEY, locale);
 
-        assertThat(
-                serializedSimpleKeyValueStorage.get(CLASS_TEST_PREFS_KEY, TestClass.class),
-                equalTo(testClass)
-        );
+        assertThat(simpleKeyValueStorage.get(ANOTHER_TEST_KEY, Locale.class), equalTo(locale));
     }
 
     @Test
     public void testThatSetValueIsSet() throws Exception {
-        TestClass testClass = TestClass.build1();
+        TestClass testObject = TestClass.build1();
 
-        serializedSimpleKeyValueStorage.set(CLASS_TEST_PREFS_KEY, testClass);
+        simpleKeyValueStorage.set(TEST_KEY, testObject);
 
-        assertThat(serializedSimpleKeyValueStorage.isSet(CLASS_TEST_PREFS_KEY), is(true));
+        assertThat(simpleKeyValueStorage.isSet(TEST_KEY), is(true));
     }
 
     @Test
     public void testThatUnavailableKeyIsNotSeted() throws Exception {
-        assertThat(serializedSimpleKeyValueStorage.isSet(UNAVAILABLE_TEST_PREFS_KEY), is(false));
+        assertThat(simpleKeyValueStorage.isSet(UNAVAILABLE_KEY), is(false));
     }
 
     @Test
     public void testThatDeletesValue() throws Exception {
-        TestClass testClass = TestClass.build1();
-        serializedSimpleKeyValueStorage.set(CLASS_TEST_PREFS_KEY, testClass);
+        TestClass testObject = TestClass.build1();
+        simpleKeyValueStorage.set(TEST_KEY, testObject);
 
-        serializedSimpleKeyValueStorage.delete(CLASS_TEST_PREFS_KEY);
+        simpleKeyValueStorage.delete(TEST_KEY);
 
-        assertThat(serializedSimpleKeyValueStorage.isSet(CLASS_TEST_PREFS_KEY), is(false));
+        assertThat(simpleKeyValueStorage.isSet(TEST_KEY), is(false));
     }
 
     @Test
     public void testThatClearsAllValues() throws Exception {
-        serializedSimpleKeyValueStorage.set(CLASS_TEST_PREFS_KEY, TestClass.build1());
-        serializedSimpleKeyValueStorage.set(ANOTHER_CLASS_TEST_PREFS_KEY, TestClass.build2());
+        simpleKeyValueStorage.set(TEST_KEY, TestClass.build1());
+        simpleKeyValueStorage.set(ANOTHER_TEST_KEY, TestClass.build2());
 
-        serializedSimpleKeyValueStorage.clear();
+        simpleKeyValueStorage.clear();
 
-        assertThat(serializedSimpleKeyValueStorage.isSet(CLASS_TEST_PREFS_KEY), is(false));
-        assertThat(serializedSimpleKeyValueStorage.isSet(ANOTHER_CLASS_TEST_PREFS_KEY), is(false));
+        assertThat(simpleKeyValueStorage.isSet(TEST_KEY), is(false));
+        assertThat(simpleKeyValueStorage.isSet(ANOTHER_TEST_KEY), is(false));
     }
 
     @Test
     public void testThatSavesListClass() throws Exception {
-        List<TestClass> testClasses = Arrays.asList(TestClass.build1(), TestClass.build2());
+        List<TestClass> testObjects = Arrays.asList(TestClass.build1(), TestClass.build2());
 
-        serializedSimpleKeyValueStorage.set(CLASS_TEST_PREFS_KEY, testClasses);
+        simpleKeyValueStorage.set(TEST_KEY, testObjects);
 
-        assertThat(serializedSimpleKeyValueStorage.getList(CLASS_TEST_PREFS_KEY,
-                TestClass[].class), equalTo(testClasses));
+        assertThat(simpleKeyValueStorage.getList(TEST_KEY, TestClass[].class),
+                equalTo(testObjects));
     }
 
-    private void serializeAnotherPersistedClassIntoSharedPrefs(TestClass persistedClass) {
-        sharedPreferences.edit().putString(CLASS_TEST_PREFS_KEY, persistedClass.toString()).apply();
+    @Test
+    public void testThatReturnsEmptyListForUnavailableListKey() throws Exception {
+        List<TestClass> list = simpleKeyValueStorage.getList(UNAVAILABLE_KEY, TestClass[].class);
+
+        assertThat(list, is(EMPTY_LIST));
+    }
+
+    @Test
+    public void testThatGetsWithCustomName() {
+        SimpleKeyValueStorage customNameKeyValueStorage = SimpleKeyValueStorage.builder()
+                .withName("custom_name").init(RuntimeEnvironment.application);
+        storeTestObjectIntoDefaultSharedPrefs(TestClass.build1());
+
+        TestClass storedObject = customNameKeyValueStorage.get(TEST_KEY, TestClass.class);
+
+        assertThat(storedObject, nullValue());
+    }
+
+    private void storeTestObjectIntoDefaultSharedPrefs(TestClass testObject) {
+        defaultSharedPreferences.edit().putString(TEST_KEY, testObject.toString()).apply();
     }
 
     @After
     public void tearDown() throws Exception {
-        sharedPreferences.edit().clear().apply();
+        defaultSharedPreferences.edit().clear().apply();
     }
 }

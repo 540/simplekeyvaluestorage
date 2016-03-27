@@ -6,18 +6,17 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-public class SimpleKeyValueStorage {
+import static java.util.Collections.EMPTY_LIST;
 
-    public static final String SHARED_PREFS_NAME = "prefs_name";
+public class SimpleKeyValueStorage {
 
     private SharedPreferences sharedPreferences;
     private Gson gson;
 
-    public SimpleKeyValueStorage(Context context) {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+    public SimpleKeyValueStorage(Context context, String prefsName) {
+        sharedPreferences = context.getSharedPreferences(prefsName, Context.MODE_PRIVATE);
         gson = new Gson();
     }
 
@@ -34,7 +33,7 @@ public class SimpleKeyValueStorage {
             T[] arr = gson.fromJson(sharedPreferences.getString(key, null), classRef);
             return Arrays.asList(arr);
         } else {
-            return Collections.emptyList();
+            return EMPTY_LIST;
         }
     }
 
@@ -54,5 +53,13 @@ public class SimpleKeyValueStorage {
 
     public void clear() {
         sharedPreferences.edit().clear().apply();
+    }
+
+    public static SimpleKeyValueStorage initDefault(Context context) {
+        return new SimpleKeyValueStorageBuilder().init(context);
+    }
+
+    public static SimpleKeyValueStorageBuilder builder() {
+        return new SimpleKeyValueStorageBuilder();
     }
 }
