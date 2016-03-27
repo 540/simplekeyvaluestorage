@@ -48,14 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.button_save)
     public void onSaveClick() {
-        Content content = new Content(
-                inputString.getText().toString(),
-                inputNumber.getText().toString().isEmpty()
-                        ? 0
-                        : Integer.parseInt(inputNumber.getText().toString())
-        );
-        inputString.setText("");
-        inputNumber.setText("");
+        Content content = getContentInputFromFields();
+        clearInputFields();
 
         simpleKeyValueStorage.set(PREFS_KEY, content);
         refreshContent();
@@ -68,5 +62,19 @@ public class MainActivity extends AppCompatActivity {
         } else {
             labelSavedContent.setText("None");
         }
+    }
+
+    private Content getContentInputFromFields() {
+        return new Content(
+                inputString.getText().toString(),
+                inputNumber.getText().toString().isEmpty()
+                        ? 0
+                        : Integer.parseInt(inputNumber.getText().toString())
+        );
+    }
+
+    private void clearInputFields() {
+        inputString.setText("");
+        inputNumber.setText("");
     }
 }
