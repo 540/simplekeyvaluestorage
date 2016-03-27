@@ -6,9 +6,8 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-
-import static java.util.Collections.EMPTY_LIST;
 
 public class SimpleKeyValueStorage {
 
@@ -33,7 +32,7 @@ public class SimpleKeyValueStorage {
             T[] arr = gson.fromJson(sharedPreferences.getString(key, null), classRef);
             return Arrays.asList(arr);
         } else {
-            return EMPTY_LIST;
+            return Collections.emptyList();
         }
     }
 
