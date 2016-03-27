@@ -1,3 +1,0 @@
-apply from: '../config/base_quality.gradle'
-
-check.dependsOn 'checkstyle', 'pmd'

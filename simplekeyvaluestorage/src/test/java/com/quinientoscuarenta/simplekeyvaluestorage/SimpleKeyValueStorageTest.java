@@ -44,7 +44,7 @@ public class SimpleKeyValueStorageTest {
     }
 
     @Test
-    public void testThatReturnsPersistedClass() throws Exception {
+    public void returns_stored_object() throws Exception {
         TestClass testObject = TestClass.build1();
         storeTestObjectIntoDefaultSharedPrefs(testObject);
 
@@ -54,7 +54,7 @@ public class SimpleKeyValueStorageTest {
     }
 
     @Test
-    public void testThatReturnsAnotherPersistedClass() throws Exception {
+    public void returns_another_stored_object() throws Exception {
         TestClass testObject = TestClass.build2();
         storeTestObjectIntoDefaultSharedPrefs(testObject);
 
@@ -64,12 +64,12 @@ public class SimpleKeyValueStorageTest {
     }
 
     @Test
-    public void testThatReturnsNullForInexistentKey() throws Exception {
+    public void returns_null_for_unavailable_key() throws Exception {
         assertNull(simpleKeyValueStorage.get(UNAVAILABLE_KEY, TestClass.class));
     }
 
     @Test
-    public void testThatSavesAnotherClass() throws Exception {
+    public void saves_another_class_object() throws Exception {
         Locale locale = Locale.ENGLISH;
 
         simpleKeyValueStorage.set(ANOTHER_TEST_KEY, locale);
@@ -78,7 +78,7 @@ public class SimpleKeyValueStorageTest {
     }
 
     @Test
-    public void testThatSetValueIsSet() throws Exception {
+    public void set_value_is_set() throws Exception {
         TestClass testObject = TestClass.build1();
 
         simpleKeyValueStorage.set(TEST_KEY, testObject);
@@ -87,12 +87,12 @@ public class SimpleKeyValueStorageTest {
     }
 
     @Test
-    public void testThatUnavailableKeyIsNotSeted() throws Exception {
+    public void unavailable_key_is_not_set() throws Exception {
         assertThat(simpleKeyValueStorage.isSet(UNAVAILABLE_KEY), is(false));
     }
 
     @Test
-    public void testThatDeletesValue() throws Exception {
+    public void deletes_value() throws Exception {
         TestClass testObject = TestClass.build1();
         simpleKeyValueStorage.set(TEST_KEY, testObject);
 
@@ -102,7 +102,7 @@ public class SimpleKeyValueStorageTest {
     }
 
     @Test
-    public void testThatClearsAllValues() throws Exception {
+    public void clears_all_values() throws Exception {
         simpleKeyValueStorage.set(TEST_KEY, TestClass.build1());
         simpleKeyValueStorage.set(ANOTHER_TEST_KEY, TestClass.build2());
 
@@ -113,7 +113,7 @@ public class SimpleKeyValueStorageTest {
     }
 
     @Test
-    public void testThatSavesListClass() throws Exception {
+    public void saves_list() throws Exception {
         List<TestClass> testObjects = Arrays.asList(TestClass.build1(), TestClass.build2());
 
         simpleKeyValueStorage.set(TEST_KEY, testObjects);
@@ -123,14 +123,14 @@ public class SimpleKeyValueStorageTest {
     }
 
     @Test
-    public void testThatReturnsEmptyListForUnavailableListKey() throws Exception {
+    public void returns_empty_list_for_unavailable_list_key() throws Exception {
         List<TestClass> list = simpleKeyValueStorage.getList(UNAVAILABLE_KEY, TestClass[].class);
 
         assertThat(list, is(EMPTY_LIST));
     }
 
     @Test
-    public void testThatGetsWithCustomName() {
+    public void initializes_with_custom_name() {
         SimpleKeyValueStorage customNameKeyValueStorage = SimpleKeyValueStorage.builder()
                 .withName("custom_name").init(RuntimeEnvironment.application);
         storeTestObjectIntoDefaultSharedPrefs(TestClass.build1());
