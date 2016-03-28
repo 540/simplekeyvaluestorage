@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/540/SimpleKeyValueStorage.svg?branch=master)](https://travis-ci.org/540/SimpleKeyValueStorage)
 [![Download](https://api.bintray.com/packages/gorkma/maven/simplekeyvaluestorage/images/download.svg) ](https://bintray.com/gorkma/maven/simplekeyvaluestorage/_latestVersion)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.quinientoscuarenta/simplekeyvaluestorage/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.quinientoscuarenta/simplekeyvaluestorage)
 
 --------
 
