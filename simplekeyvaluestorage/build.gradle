@@ -42,7 +42,7 @@ ext {
     siteUrl = 'https://github.com/540/simplekeyvaluestorage'
     gitUrl = 'https://github.com:540/simplekeyvaluestorage.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.0.1'
 
     developerId = 'gorkma'
     developerName = 'Gorka Moreno Asín'
