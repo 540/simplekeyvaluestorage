@@ -8,13 +8,26 @@ public class SimpleKeyValueStorageBuilder {
 
     private String prefsName = DEFAULT_PREFS_NAME;
 
-    public static SimpleKeyValueStorageBuilder withName(String name) {
+    /**
+     * Set the name for the SharedPreferences object SimpleKeyValueStorage will be built with.
+     *
+     * @param name Desired preferences file. If a preferences file by this name
+     *             does not exist, it will be created.
+     * @return SimpleKeyValueStorageBuilder.
+     */
+    public SimpleKeyValueStorageBuilder withName(String name) {
         SimpleKeyValueStorageBuilder builder = new SimpleKeyValueStorageBuilder();
         builder.prefsName = name;
 
         return builder;
     }
 
+    /**
+     * Will create a new instance of SimpleKeyValueStorage.
+     *
+     * @param context Application or Activity Context needed to access SharedPreferences.
+     * @return A SimpleKeyValueStorageBuilder instance.
+     */
     public SimpleKeyValueStorage init(Context context) {
         return new SimpleKeyValueStorage(context, prefsName);
     }

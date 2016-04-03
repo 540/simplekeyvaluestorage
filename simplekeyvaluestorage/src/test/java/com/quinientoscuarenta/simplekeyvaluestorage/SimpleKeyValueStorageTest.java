@@ -64,6 +64,16 @@ public class SimpleKeyValueStorageTest {
     }
 
     @Test
+    public void returnsAnotherTypeStoredObject() throws Exception {
+        String testString = "String";
+        storeTestObjectIntoDefaultSharedPrefs(testString);
+
+        String storedObject = simpleKeyValueStorage.get(TEST_KEY, String.class);
+
+        assertThat(storedObject, equalTo(testString));
+    }
+
+    @Test
     public void returnsNullForUnavailableKey() throws Exception {
         assertNull(simpleKeyValueStorage.get(UNAVAILABLE_KEY, TestClass.class));
     }
@@ -140,7 +150,23 @@ public class SimpleKeyValueStorageTest {
         assertThat(storedObject, nullValue());
     }
 
-    private void storeTestObjectIntoDefaultSharedPrefs(TestClass testObject) {
+    @Test(expected = ClassCastException.class)
+    public void throwClassCastExceptionIfThePreferenceValueIsNotOfSuppliedClassType() {
+        Class<String> anotherTestClassType = String.class;
+        simpleKeyValueStorage.set(TEST_KEY, TestClass.build1());
+
+        simpleKeyValueStorage.get(TEST_KEY, anotherTestClassType);
+    }
+
+    @Test(expected = ClassCastException.class)
+    public void throwClassCastExceptionIfThePreferenceArrayValueIsNotOfSuppliedClassType() {
+        Class<String[]> anotherListTestClassType = String[].class;
+        simpleKeyValueStorage.set(TEST_KEY, Arrays.asList(TestClass.build1(), TestClass.build2()));
+
+        simpleKeyValueStorage.getList(TEST_KEY, anotherListTestClassType);
+    }
+
+    private void storeTestObjectIntoDefaultSharedPrefs(Object testObject) {
         defaultSharedPreferences.edit().putString(TEST_KEY, testObject.toString()).apply();
     }
 

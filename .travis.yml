@@ -16,7 +16,7 @@ jdk: oraclejdk7
 sudo: false
 cache:
   directories:
-    - $HOME/.gradle/caches/2.10
+    - $HOME/.gradle/caches/2.12
     - $HOME/.gradle/caches/jars-1
     - $HOME/.gradle/daemon
     - $HOME/.gradle/native
