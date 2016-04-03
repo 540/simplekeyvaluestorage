@@ -20,14 +20,14 @@ Installation
 
 Grab via Gradle:
 ```groovy
-compile 'com.quinientoscuarenta:simplekeyvaluestorage:1.0.0'
+compile 'com.quinientoscuarenta:simplekeyvaluestorage:1.0.1'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.quinientoscuarenta</groupId>
   <artifactId>simplekeyvaluestorage</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 
